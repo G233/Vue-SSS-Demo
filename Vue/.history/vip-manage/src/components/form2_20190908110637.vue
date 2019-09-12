@@ -1,0 +1,109 @@
+<template>
+  <div>
+
+    <Form
+      style="margin-top:50px"
+      ref="formInline"
+      :model="formInline"
+      :rules="ruleInline"
+      :label-width="80"
+    >
+
+      <FormItem
+        label="手机号"
+        prop="number"
+      >
+        <Input
+          type="number"
+          v-model="formInline.number"
+          placeholder="请输入充值的手机号"
+        ></Input>
+      </FormItem>
+      <FormItem
+        label="充值金额"
+        prop="balance"
+      >
+        <Input
+          type="number"
+          v-model="formInline.balance"
+          placeholder="请输入整数充值金额"
+        ></Input>
+      </FormItem>
+
+      <FormItem>
+        <Button
+          @click="submite('formInline')"
+          type="primary"
+        >确定</Button>
+
+      </FormItem>
+    </Form>
+
+  </div>
+</template>
+
+<script>
+export default {
+ computed: {
+     modal3(){
+        console.log("发生了改变") 
+     }
+ },
+   
+  data() {
+    const validatePhone = async (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入充值手机号"));
+      } else {
+        let res = await axios.post("/checkphone", { number: value });
+        console.log(res.data);
+        if (res.data !== 200) {
+          callback(new Error("此手机号未注册会员"));
+        }
+        callback();
+      }
+    };
+    return {
+      formInline: {
+        balance: "",
+        number: ""
+      },
+      ruleInline: {
+        balance: [
+          {
+            required: true,
+            message: "请输入充值金额",
+            trigger: "blur"
+          }
+        ],
+        number: [
+          {
+            required: true,
+            validator: validatePhone,
+            trigger: "blur"
+          }
+        ]
+      }
+    };
+  },
+
+  methods: {
+    async submite(data) {
+      this.$refs[data].validate(async valid => {
+        if (valid) {
+          let res = await axios.post("/addbalance", this.formInline);
+
+          this.$emit("OK");
+          this.$Message.success("充值成功");
+        } else {
+          this.$Message.error("充值信息有误");
+        }
+      });
+      Object.assign(this.$data, this.$options.data())
+    }
+  }
+};
+</script>
+
+<style scoped>
+</style>

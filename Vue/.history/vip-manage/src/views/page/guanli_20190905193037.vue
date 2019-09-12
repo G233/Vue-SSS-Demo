@@ -1,0 +1,36 @@
+<template>
+    <div>
+           <Modal
+        v-model="modal1"
+        title="Common Modal dialog box title"
+        @on-ok="ok"
+        @on-cancel="cancel">
+        <p>Content of dialog</p>
+        <p>Content of dialog</p>
+        <p>Content of dialog</p>
+    </Modal>
+         <Button type="primary" @click="handleRender">添加会员</Button>
+    </div>
+</template>
+
+<script>
+    export default {
+        data () {
+            return {
+                value: ''
+            }            
+        },
+        methods: {
+           ok () {
+                this.$Message.info('Clicked ok');
+            },
+            cancel () {
+                this.$Message.info('Clicked cancel');
+            }
+        }
+    }
+</script>
+
+<style lang="" scoped>
+    
+</style>

@@ -1,0 +1,70 @@
+<template>
+  <div>
+    <Modal
+      v-model="modal1"
+      @on-ok="ok"
+      @on-cancel="cancel"
+    >
+      <Form></Form>
+    </Modal>
+    <Button
+      type="primary"
+      @click="modal1 = true"
+    >添加会员</Button>
+
+  </div>
+</template>
+
+<script>
+import Form from "../../components/form";
+export default {
+    components: {
+    Form
+  },
+ 
+      data() {
+    return {
+         modal1: false,
+      formInline: {
+        name: "",
+        number: "",
+        price: ""
+      },
+      formInline: {
+        name: "",
+        number: "",
+        gender: "",
+        birthday:""
+      },
+      ruleInline: {
+        name: [
+          {
+            required: true,
+            message: "请输入姓名",
+            trigger: "blur"
+          }
+        ],
+        number: [
+          {
+            required: true,
+            message: "请输入手机号",
+            trigger: "blur"
+          }
+        ]
+      }
+    };
+  },
+  
+  methods: {
+    ok() {
+      this.$Message.info("Clicked ok");
+    },
+    cancel() {
+      this.$Message.info("Clicked cancel");
+    }
+  }
+};
+</script>
+
+<style lang="" scoped>
+</style>
