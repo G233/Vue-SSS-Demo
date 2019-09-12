@@ -7,3 +7,5 @@
 后端使用 Spring + Spring MVC + Spring Data JPA
 
 架构合理，代码简单，适合学习使用
+
+PS: 后端使用IDEA 开发， 并安装了 Lombok 插件
